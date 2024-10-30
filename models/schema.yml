@@ -1,7 +1,46 @@
 version: 2
 sources:
-   - name: gz_raw_data
+   - name: raw
+     schema: gz_raw_data
      tables:
-       - name: raw_gz_sales 
-       - name: raw_gz_product 
-       - name: raw_gz_ship 
+       - name: sales
+         identifier: raw_gz_sales
+         description: sales of Greenweez / we have on row per product_id found in each orders_id
+         columns:
+           - name: date_date
+           - name: orders_id
+             description: An unique identifier for each order 
+           - name: product_id
+             description: an unique identifier for each category of product 
+           - name: revenue 
+           - name: quantity
+         tests:
+              - unique:
+                 column_name: "(orders_id || '-' || pdt_id)"
+
+           
+       - name: product 
+         identifier: raw_gz_product
+         description: products sold by greenweez
+         columns:
+            - name: products_id
+              description: an unique identifier for each category of product           
+              tests:
+               - unique
+               - not_null
+            - name: purchase_price
+              description: An unique identifier for each order 
+          
+       - name: ship
+         identifier:  raw_gz_ship 
+         description: information regarding the prder's shipping of greenweez 
+         columns:
+            - name: orders_id
+              description: an unique identifier for each order           
+              tests:
+               - unique
+               - not_null
+            - name: shipping_fee
+            - name: shipping_fee_1
+            - name: logcost 
+            - name: ship_cost
