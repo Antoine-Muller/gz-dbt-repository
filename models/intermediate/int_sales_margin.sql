@@ -1,4 +1,4 @@
-select
+WITH margin_comp AS  (select
    s.date_date,
    s.orders_id,
    s.revenue,
@@ -10,3 +10,8 @@ from {{ ref('stg_gz_sales') }} as s
 left join {{ ref('stg_gz_product') }} as p
 on s.products_id = p.products_id
 
+)
+
+SELECT*,
+ {{ margin_percent('margin', 'revenue') }} AS margin_percent
+ from margin_comp
